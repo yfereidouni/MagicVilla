@@ -13,15 +13,58 @@ namespace MagicVilla.VillaAPI.Controllers
     public class VillaAPIController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<VillaDTO> GetVillas()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public IActionResult GetVillas()
         {
-            return VillaStore.VillaList;
+            return Ok(VillaStore.VillaList);
         }
 
-        [HttpGet("id:int")]
-        public VillaDTO GetVilla(int id)
+        [HttpGet("id:int", Name = "GetVilla")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(200, Type = typeof(VillaDTO))]
+        public IActionResult GetVilla(int id)
         {
-            return VillaStore.VillaList.FirstOrDefault(c => c.Id == id);
+            if (id == 0)
+                return BadRequest();
+
+            var villa = VillaStore.VillaList.FirstOrDefault(c => c.Id == id);
+
+            if (villa == null)
+                return NotFound();
+
+            return Ok(villa);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult CreateVilla([FromBody] VillaDTO villaDTO)
+        {
+            //if (!ModelState.IsValid)
+            //    return BadRequest(ModelState);
+
+            if (VillaStore.VillaList.FirstOrDefault(u => u.Name.ToLower() == villaDTO.Name.ToLower()) != null)
+            {
+                ModelState.AddModelError("", "Villa already exists!");
+                return BadRequest(ModelState);
+            }
+
+            if (villaDTO is null)
+                return BadRequest();
+
+            if (villaDTO.Id > 0)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            villaDTO.Id = VillaStore.VillaList.OrderByDescending(c => c.Id)
+                                              .FirstOrDefault().Id + 1;
+
+            VillaStore.VillaList.Add(villaDTO);
+
+            //return Ok(villaDTO);
+            return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO);
         }
     }
 }
