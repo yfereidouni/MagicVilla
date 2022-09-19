@@ -13,7 +13,8 @@ builder.Host.UseSerilog();
 //------------------------------------------------------------------------------------------
 
 // Cutstom Logger configuration -------------------------------------------------------------
-builder.Services.AddSingleton<ILogging, Logging>();
+//builder.Services.AddSingleton<ILogging, Logging>();
+builder.Services.AddSingleton<ILogging, LoggingV2>();
 //------------------------------------------------------------------------------------------
 
 // Headers configuration for accepting "Application/XML" content ----------------------------
