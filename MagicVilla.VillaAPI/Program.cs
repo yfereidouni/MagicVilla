@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Headers configuration for accepting "Application/XML" content ----------------------------
 builder.Services.AddControllers(options => 
 {
-    options.ReturnHttpNotAcceptable = true;
+    //options.ReturnHttpNotAcceptable = true;
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 //-------------------------------------------------------------------------------------------
 
