@@ -1,4 +1,5 @@
 ﻿using MagicVilla.VillaAPI.Data;
+using MagicVilla.VillaAPI.Logging;
 using MagicVilla.VillaAPI.Models;
 using MagicVilla.VillaAPI.Models.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -13,18 +14,21 @@ namespace MagicVilla.VillaAPI.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
-        private readonly ILogger<VillaAPIController> _logger;
+        private readonly ILogging _logger;
+        private readonly ILogger<VillaAPIController> _logger1;
 
-        public VillaAPIController(ILogger<VillaAPIController> logger)
+        public VillaAPIController(ILogging logger, ILogger<VillaAPIController> logger1)
         {
             _logger = logger;
+            _logger1 = logger1;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetVillas()
         {
-            _logger.LogInformation("iLog: Getting All villas");
+            _logger1.LogInformation($"Serilog: Getting All villas");
+            _logger.Log("iLog: Getting All villas", "");
             return Ok(VillaStore.VillaList);
         }
 
@@ -37,7 +41,8 @@ namespace MagicVilla.VillaAPI.Controllers
         {
             if (id == 0)
             {
-                _logger.LogInformation($"iLog: Get Villa Error with Id {id}");
+                _logger1.LogInformation($"Serilog: Get Villa Error with Id {id}");
+                _logger.Log($"iLog: Get Villa Error with Id {id}", "error");
                 return BadRequest();
             }
 
@@ -124,7 +129,7 @@ namespace MagicVilla.VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult UpdatePartialVilla(int id, JsonPatchDocument<VillaDTO> patchDTO)
         {
-            if (patchDTO == null || id ==0)
+            if (patchDTO == null || id == 0)
                 return BadRequest();
 
             var villa = VillaStore.VillaList.FirstOrDefault(c => c.Id == id);
@@ -133,8 +138,8 @@ namespace MagicVilla.VillaAPI.Controllers
                 return NotFound();
 
             //Syntax for JsonPatchDocument
-            patchDTO.ApplyTo(villa,ModelState);
-            
+            patchDTO.ApplyTo(villa, ModelState);
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
