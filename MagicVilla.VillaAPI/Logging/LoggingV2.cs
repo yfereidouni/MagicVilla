@@ -4,25 +4,30 @@ public class LoggingV2 : ILogging
 {
     public void Log(string message, string type)
     {
-        if (type == "error")
+        switch (type)
         {
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.WriteLine($"ERROR - {message}");
-            Console.BackgroundColor= ConsoleColor.Black;
-        }
-        else
-        {
-            if (type == "warning")
-            {
-                Console.BackgroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine($"ERROR - {message}");
+            case "error":
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.Write($"ERROR");
                 Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine($" : {message}");
+                break;
+            case "warning":
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                Console.Write($"WARNING");
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine($" : {message}");
+                break;
 
-            }
-            else
-            {
+            case "info":
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.Write($"INFO");
+                Console.BackgroundColor = ConsoleColor.Black;
+                Console.WriteLine($" : {message}");
+                break;
+            default:
                 Console.WriteLine(message);
-            }
+                break;
         }
     }
 }

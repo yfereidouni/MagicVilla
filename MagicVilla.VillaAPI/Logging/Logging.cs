@@ -6,7 +6,7 @@ public class Logging : ILogging
     {
         if (type == "error")
         {
-            Console.WriteLine($"ERROR - {message}");
+            Console.WriteLine($"ERROR : {message}");
         }
         else
         {
