@@ -58,13 +58,30 @@ namespace MagicVilla.VillaAPI.Controllers
             if (villaDTO.Id > 0)
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
-            villaDTO.Id = VillaStore.VillaList.OrderByDescending(c => c.Id)
-                                              .FirstOrDefault().Id + 1;
+            villaDTO.Id = VillaStore.VillaList.OrderByDescending(c => c.Id).FirstOrDefault().Id + 1;
 
             VillaStore.VillaList.Add(villaDTO);
 
             //return Ok(villaDTO);
             return CreatedAtRoute("GetVilla", new { id = villaDTO.Id }, villaDTO);
+        }
+
+        [HttpDelete("id:int", Name = "DeleteVilla")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DeleteVilla(int id)
+        {
+            if (id == 0)
+                return BadRequest();
+
+            var villa = VillaStore.VillaList.FirstOrDefault(c => c.Id == id);
+
+            if (villa == null)
+                return NotFound();
+
+            VillaStore.VillaList.Remove(villa);
+            return NoContent();
         }
     }
 }
