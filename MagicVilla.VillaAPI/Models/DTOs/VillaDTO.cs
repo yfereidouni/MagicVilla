@@ -8,5 +8,7 @@ public class VillaDTO
     [Required]
     [MaxLength(20,ErrorMessage ="Max length is 20 chars")]
     public string Name { get; set; } = "";
+    public int Occupancy { get; set; }
+    public int Sqft { get; set; }
     public DateTime CreatedDate { get; set; }
 }
