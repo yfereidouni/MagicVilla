@@ -27,8 +27,8 @@ namespace MagicVilla.VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult GetVillas()
         {
-            _logger1.LogInformation($"Serilog: Getting All villas");
-            _logger.Log("iLog: Getting All villas", "");
+            _logger1.LogInformation($"(Serilog) Getting All villas");
+            _logger.Log("(iLog) Getting All villas", "info");
             return Ok(VillaStore.VillaList);
         }
 
@@ -41,8 +41,8 @@ namespace MagicVilla.VillaAPI.Controllers
         {
             if (id == 0)
             {
-                _logger1.LogInformation($"Serilog: Get Villa Error with Id {id}");
-                _logger.Log($"iLog: Get Villa Error with Id {id}", "error");
+                _logger1.LogInformation($"(Serilog) Get Villa Error with Id {id}");
+                _logger.Log($"(iLog) Get Villa Error with Id {id}", "error");
                 return BadRequest();
             }
 
