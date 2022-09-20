@@ -2,6 +2,7 @@ using MagicVilla.VillaAPI.Data;
 using MagicVilla.VillaAPI.Logging;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+//Database Auto-Migration -------------------------------------------------------------------------
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.Migrate();
+}
+//SeedDatabase ------------------------------------------------------------------------------------
+//await AppDBInitializer.SeedingMasterDataAsync(app);
+//await AppDBInitializer.SeedingUsersAndRolesAsync(app);
+//-------------------------------------------------------------------------------------------------
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
