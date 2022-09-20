@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MagicVilla.VillaAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220920085349_seedVillasTable")]
+    [Migration("20220920094731_seedVillasTable")]
     partial class seedVillasTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,66 +72,66 @@ namespace MagicVilla.VillaAPI.Migrations
                         {
                             Id = 1,
                             Amenity = "",
-                            CreatedDate = new DateTime(2022, 9, 20, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5234),
+                            CreatedDate = new DateTime(2022, 9, 20, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8222),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                             ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa1.jpg",
                             Name = "Royal Villa",
                             Occupancy = 5,
                             Rate = 200.0,
                             Sqft = 550,
-                            UpdatedDate = new DateTime(2022, 9, 21, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5313)
+                            UpdatedDate = new DateTime(2022, 9, 21, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8260)
                         },
                         new
                         {
                             Id = 2,
                             Amenity = "",
-                            CreatedDate = new DateTime(2022, 9, 20, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5321),
+                            CreatedDate = new DateTime(2022, 9, 20, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8264),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                             ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
-                            Name = "Diomond Villa",
+                            Name = "Peremium Pool Villa",
                             Occupancy = 4,
                             Rate = 550.0,
                             Sqft = 900,
-                            UpdatedDate = new DateTime(2022, 9, 21, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5324)
+                            UpdatedDate = new DateTime(2022, 9, 21, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8267)
                         },
                         new
                         {
                             Id = 3,
                             Amenity = "",
-                            CreatedDate = new DateTime(2022, 9, 20, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5329),
+                            CreatedDate = new DateTime(2022, 9, 20, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8270),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                             ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa3.jpg",
-                            Name = "Diomond Pool Villa",
+                            Name = "Luxary Pool Villa",
                             Occupancy = 4,
                             Rate = 600.0,
                             Sqft = 1100,
-                            UpdatedDate = new DateTime(2022, 9, 21, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5332)
+                            UpdatedDate = new DateTime(2022, 9, 21, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8272)
                         },
                         new
                         {
                             Id = 4,
                             Amenity = "",
-                            CreatedDate = new DateTime(2022, 9, 20, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5337),
+                            CreatedDate = new DateTime(2022, 9, 20, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8275),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                             ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
-                            Name = "Roof Villa",
+                            Name = "Diamond Villa",
                             Occupancy = 3,
                             Rate = 800.0,
                             Sqft = 680,
-                            UpdatedDate = new DateTime(2022, 9, 21, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5340)
+                            UpdatedDate = new DateTime(2022, 9, 21, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8277)
                         },
                         new
                         {
                             Id = 5,
                             Amenity = "",
-                            CreatedDate = new DateTime(2022, 9, 20, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5345),
+                            CreatedDate = new DateTime(2022, 9, 20, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8280),
                             Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                             ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
-                            Name = "Beach Villa",
+                            Name = "Diamond Pool Villa",
                             Occupancy = 4,
                             Rate = 650.0,
                             Sqft = 1100,
-                            UpdatedDate = new DateTime(2022, 9, 21, 13, 23, 49, 449, DateTimeKind.Local).AddTicks(5349)
+                            UpdatedDate = new DateTime(2022, 9, 21, 14, 17, 31, 434, DateTimeKind.Local).AddTicks(8282)
                         });
                 });
 #pragma warning restore 612, 618

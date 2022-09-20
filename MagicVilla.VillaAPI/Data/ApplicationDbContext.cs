@@ -28,7 +28,7 @@ public class ApplicationDbContext : DbContext
             new Villa
             {
                 Id = 2,
-                Name = "Diomond Villa",
+                Name = "Peremium Pool Villa",
                 Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                 ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
                 Occupancy = 4,
@@ -41,7 +41,7 @@ public class ApplicationDbContext : DbContext
             new Villa
             {
                 Id = 3,
-                Name = "Diomond Pool Villa",
+                Name = "Luxary Pool Villa",
                 Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                 ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa3.jpg",
                 Occupancy = 4,
@@ -54,7 +54,7 @@ public class ApplicationDbContext : DbContext
             new Villa
             {
                 Id = 4,
-                Name = "Roof Villa",
+                Name = "Diamond Villa",
                 Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                 ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
                 Occupancy = 3,
@@ -67,7 +67,7 @@ public class ApplicationDbContext : DbContext
             new Villa
             {
                 Id = 5,
-                Name = "Beach Villa",
+                Name = "Diamond Pool Villa",
                 Details = "Fusce 11 tincidunt maximus leo, sed scelerisque messa auctor sit. Donce ex damilar nur duch calliperist.",
                 ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
                 Occupancy = 4,
