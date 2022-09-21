@@ -1,3 +1,4 @@
+using MagicVilla.VillaAPI;
 using MagicVilla.VillaAPI.Data;
 using MagicVilla.VillaAPI.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 // EF Configuration -------------------------------------------------------------------------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+//-------------------------------------------------------------------------------------------------
+
+// AutoMapper Configuration -----------------------------------------------------------------------
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 //-------------------------------------------------------------------------------------------------
 
 // Serilog Config ---------------------------------------------------------------------------------
