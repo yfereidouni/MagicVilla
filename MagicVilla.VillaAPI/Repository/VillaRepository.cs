@@ -1,6 +1,7 @@
 ﻿using MagicVilla.VillaAPI.Data;
 using MagicVilla.VillaAPI.Models;
 using MagicVilla.VillaAPI.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace MagicVilla.VillaAPI.Repository;
@@ -19,14 +20,29 @@ public class VillaRepository : IVillaRepository
         await Save();
     }
 
-    public Task<List<Villa>> Get(Expression<Func<Villa>> filter = null, bool tracked = true)
+    public async Task<Villa> Get(Expression<Func<Villa, bool>> filter = null, bool tracked = true)
     {
-        throw new NotImplementedException();
+        IQueryable<Villa> query = _dbContext.Villas;
+        
+        if (!tracked)
+            query = query.AsNoTracking();
+        
+        if (filter is not null)
+            query = query.Where(filter);
+        
+        //Query execute here! This is "Deferred execution"
+        return await query.FirstOrDefaultAsync();
     }
 
-    public Task<List<Villa>> GetAll(Expression<Func<Villa>> filter = null)
+    public async Task<List<Villa>> GetAll(Expression<Func<Villa, bool>> filter = null)
     {
-        throw new NotImplementedException();
+        IQueryable<Villa> query = _dbContext.Villas;
+        
+        if (filter is not null)
+            query = query.Where(filter);
+        
+        //Query execute here! This is "Deferred execution"
+        return await query.ToListAsync();
     }
 
     public async Task Remove(Villa entity)
