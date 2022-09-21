@@ -34,12 +34,15 @@ namespace MagicVilla.VillaAPI.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetVillas()
+        public async Task<ActionResult<IEnumerable<VillaDTO>>> GetVillas()
         {
             _logger1.LogInformation($"(Serilog) Getting All villas");
             _logger.Log("(iLog) Getting All villas", "info");
 
-            return Ok(await _dbContext.Villas.ToListAsync());
+            var villaList = await _dbContext.Villas.ToListAsync();
+            
+            return Ok(_mapper.Map<IEnumerable<VillaDTO>>(villaList));
+            //return Ok(await _dbContext.Villas.ToListAsync());
         }
 
         [HttpGet("id:int", Name = "GetVilla")]
