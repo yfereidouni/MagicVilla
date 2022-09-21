@@ -112,6 +112,7 @@ namespace MagicVilla.VillaAPI.Controllers
                 return NotFound();
 
             _dbContext.Villas.Remove(villa);
+            await _dbContext.SaveChangesAsync();
             return NoContent();
         }
 
