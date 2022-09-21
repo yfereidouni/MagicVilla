@@ -144,12 +144,10 @@ namespace MagicVilla.VillaAPI.Controllers
             if (villa is null)
                 return NotFound();
 
-
             VillaUpdateDTO villaDTO = _mapper.Map<VillaUpdateDTO>(villa);
 
             //Syntax for JsonPatchDocument
             patchDTO.ApplyTo(villaDTO, ModelState);
-
             Villa model = _mapper.Map<Villa>(villaDTO);
 
             _dbContext.Villas.Update(model);
