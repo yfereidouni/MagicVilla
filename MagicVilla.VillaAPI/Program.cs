@@ -1,6 +1,8 @@
 using MagicVilla.VillaAPI;
 using MagicVilla.VillaAPI.Data;
 using MagicVilla.VillaAPI.Logging;
+using MagicVilla.VillaAPI.Repository;
+using MagicVilla.VillaAPI.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System;
@@ -8,6 +10,8 @@ using System;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 
 // EF Configuration -------------------------------------------------------------------------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
