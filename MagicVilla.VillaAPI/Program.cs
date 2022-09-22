@@ -12,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 
 // EF Configuration -------------------------------------------------------------------------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
