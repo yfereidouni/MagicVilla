@@ -10,7 +10,7 @@ public class VillaRepository : Repository<Villa>, IVillaRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public VillaRepository(ApplicationDbContext dbContext):base(dbContext)
+    public VillaRepository(ApplicationDbContext dbContext) : base(dbContext)
     {
         _dbContext = dbContext;
     }
