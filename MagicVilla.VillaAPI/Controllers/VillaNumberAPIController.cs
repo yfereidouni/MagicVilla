@@ -18,17 +18,21 @@ namespace MagicVilla.VillaAPI.Controllers;
 public class VillaNumberAPIController : ControllerBase
 {
     protected APIResponse _response;
+    private readonly IVillaRepository _villaRepository;
     private readonly IVillaNumberRepository _villaNumberRepository;
     private readonly IMapper _mapper;
     private readonly ILogging _logger;
     private readonly ILogger<VillaNumberAPIController> _logger1;
 
-    public VillaNumberAPIController(IVillaNumberRepository villaRepository,
+    public VillaNumberAPIController(
+        IVillaRepository villaRepository,
+        IVillaNumberRepository villaNumberRepository,
         IMapper mapper,
         ILogging logger,
         ILogger<VillaNumberAPIController> logger1)
     {
-        _villaNumberRepository = villaRepository;
+        _villaRepository = villaRepository;
+        _villaNumberRepository = villaNumberRepository;
         _mapper = mapper;
         _logger = logger;
         _logger1 = logger1;
@@ -117,6 +121,12 @@ public class VillaNumberAPIController : ControllerBase
                 return BadRequest(ModelState);
             }
 
+            if (await _villaRepository.GetAsync(u => u.Id == villaDTO.VillaId) == null)
+            {
+                ModelState.AddModelError("CustomError","Villa ID is Invalid!");
+                return BadRequest(ModelState);
+            }
+
             if (villaDTO is null)
                 return BadRequest();
 
@@ -144,7 +154,7 @@ public class VillaNumberAPIController : ControllerBase
     {
         try
         {
-            if (villaNo == 0) 
+            if (villaNo == 0)
             {
                 _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
                 return BadRequest(_response);
@@ -177,7 +187,7 @@ public class VillaNumberAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<APIResponse>> UpdateVilla(int villaNo, [FromBody] VillaNumberUpdateDTO villaDTO)
+    public async Task<ActionResult<APIResponse>> UpdateVillaNumber(int villaNo, [FromBody] VillaNumberUpdateDTO villaDTO)
     {
         try
         {
@@ -185,6 +195,12 @@ public class VillaNumberAPIController : ControllerBase
             {
                 _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
                 return BadRequest(_response);
+            }
+
+            if (await _villaRepository.GetAsync(u => u.Id == villaDTO.VillaId) == null)
+            {
+                ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+                return BadRequest(ModelState);
             }
 
             VillaNumber model = _mapper.Map<VillaNumber>(villaDTO);
@@ -219,11 +235,18 @@ public class VillaNumberAPIController : ControllerBase
         if (villa is null)
             return NotFound();
 
+
         VillaNumberUpdateDTO villaDTO = _mapper.Map<VillaNumberUpdateDTO>(villa);
 
         //Syntax for JsonPatchDocument
         patchDTO.ApplyTo(villaDTO, ModelState);
         VillaNumber model = _mapper.Map<VillaNumber>(villaDTO);
+
+        if (await _villaRepository.GetAsync(u => u.Id == villaDTO.VillaId) == null)
+        {
+            ModelState.AddModelError("CustomError", "Villa ID is Invalid!");
+            return BadRequest(ModelState);
+        }
 
         await _villaNumberRepository.UpdateAsync(model);
 
