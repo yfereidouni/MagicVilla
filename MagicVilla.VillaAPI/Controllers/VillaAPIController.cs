@@ -106,8 +106,9 @@ public class VillaAPIController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<ActionResult<APIResponse>> CreateVilla([FromBody] VillaCreateDTO villaDTO)
     {
-        //if (!ModelState.IsValid)
-        //    return BadRequest(ModelState);
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         try
         {
 
@@ -144,7 +145,7 @@ public class VillaAPIController : ControllerBase
     {
         try
         {
-            if (id == 0) 
+            if (id == 0)
             {
                 _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
                 return BadRequest(_response);
