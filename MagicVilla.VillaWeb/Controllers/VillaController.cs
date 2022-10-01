@@ -71,7 +71,6 @@ public sealed class VillaController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateVilla(VillaUpdateDTO model)
     {
-
         if (ModelState.IsValid)
         {
             var response = await _villaService.UpdateAsync<APIResponse>(model);

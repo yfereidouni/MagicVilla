@@ -60,7 +60,7 @@ public class VillaAPIController : ControllerBase
         return _response;
     }
 
-    [HttpGet("id:int", Name = "GetVilla")]
+    [HttpGet("{id:int}", Name = "GetVilla")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -137,7 +137,7 @@ public class VillaAPIController : ControllerBase
         return _response;
     }
 
-    [HttpDelete("id:int", Name = "DeleteVilla")]
+    [HttpDelete("{id:int}", Name = "DeleteVilla")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -174,7 +174,7 @@ public class VillaAPIController : ControllerBase
         return _response;
     }
 
-    [HttpPut("id:int", Name = "UpdateVilla")]
+    [HttpPut("{id:int}", Name = "UpdateVilla")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -206,7 +206,7 @@ public class VillaAPIController : ControllerBase
         return _response;
     }
 
-    [HttpPatch("id:int", Name = "UpdatePartialVilla")]
+    [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
