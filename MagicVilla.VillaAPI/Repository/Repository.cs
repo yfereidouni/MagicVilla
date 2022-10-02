@@ -14,6 +14,7 @@ public class Repository<T> : IRepository<T> where T : class
     public Repository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
+        //_dbContext.VillaNumbers.Include(u => u.Villa).ToString();
         this.dbSet = _dbContext.Set<T>();
     }
     public async Task CreateAsync(T entity)
@@ -22,7 +23,8 @@ public class Repository<T> : IRepository<T> where T : class
         await SaveAsync();
     }
 
-    public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true)
+    //"Villa,VillaSpecial"
+    public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null)
     {
         IQueryable<T> query = dbSet;
 
@@ -32,16 +34,32 @@ public class Repository<T> : IRepository<T> where T : class
         if (filter is not null)
             query = query.Where(filter);
 
+        if (includeProperties != null)
+        {
+            foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProp);
+            }
+        }
+
         //Query execute here! This is "Deferred execution"
         return await query.FirstOrDefaultAsync();
     }
 
-    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null)
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
     {
         IQueryable<T> query = dbSet;
 
         if (filter is not null)
             query = query.Where(filter);
+
+        if (includeProperties != null)
+        {
+            foreach (var includeProp in includeProperties.Split(new char[] {','},StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProp); 
+            }
+        }
 
         //Query execute here! This is "Deferred execution"
         return await query.ToListAsync();

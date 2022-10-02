@@ -49,7 +49,7 @@ public class VillaNumberAPIController : ControllerBase
             _logger1.LogInformation($"(Serilog) Getting All villas");
             _logger.Log("(iLog) Getting All villas", "info");
 
-            IEnumerable<VillaNumber> villaList = await _villaNumberRepository.GetAllAsync();
+            IEnumerable<VillaNumber> villaList = await _villaNumberRepository.GetAllAsync(includeProperties:"Villa");
             _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaList);
             _response.StatusCode = System.Net.HttpStatusCode.OK;
             return Ok(_response);
