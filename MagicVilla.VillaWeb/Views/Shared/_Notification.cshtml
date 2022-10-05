@@ -1,0 +1,33 @@
+﻿@*<script src="//cdn.jsdeliver.net/npm/sweetalert2@11"></script>*@
+@*<script src="/limonte-sweetalert2/sweetalert2.js"></script>*@
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+
+@if (TempData["success"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: @TempData["success"],
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        })
+
+    </script>
+}
+
+@if (TempData["error"] != null)
+{
+    <script type="text/javascript">
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: @TempData["error"],
+            showConfirmationButton: false,
+            timer: 3000,
+            timerProgressBar: true
+        })
+    </script>
+}
