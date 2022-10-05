@@ -16,8 +16,8 @@ public sealed class VillaNumberController : Controller
     private readonly IVillaService _villaService;
     private readonly IMapper _mapper;
 
-    public VillaNumberController(IVillaNumberService villaNumberService, 
-        IMapper mapper, 
+    public VillaNumberController(IVillaNumberService villaNumberService,
+        IMapper mapper,
         IVillaService villaService)
     {
         _villaNumberService = villaNumberService;
@@ -68,6 +68,16 @@ public sealed class VillaNumberController : Controller
             }
         }
 
+        var resp = await _villaService.GetAllAsync<APIResponse>();
+        if (resp != null && resp.IsSuccess)
+        {
+            model.VillaList = JsonConvert.DeserializeObject<List<VillaDTO>>
+                (Convert.ToString(resp.Result)).Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                });
+        }
 
         return View(model);
     }
