@@ -66,6 +66,17 @@ public sealed class VillaNumberController : Controller
             {
                 return RedirectToAction(nameof(IndexVillaNumber));
             }
+            else
+            {
+                if (response.ErrorMessages.Count > 0)
+                {
+                    foreach (var item in response.ErrorMessages)
+                    {
+                        ModelState.AddModelError("ErrorMessages", item);
+                    }
+                    //ModelState.AddModelError("ErrorMessages", response.ErrorMessages.FirstOrDefault());
+                }
+            }
         }
 
         var resp = await _villaService.GetAllAsync<APIResponse>();
