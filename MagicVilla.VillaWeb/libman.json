@@ -7,6 +7,10 @@
       "destination": "wwwroot/bootstrap-icons/"
     },
     {
+      "library": "bootstrap-sweetalert@1.0.1",
+      "destination": "wwwroot/bootstrap-sweetalert/"
+    },
+    {
       "library": "limonte-sweetalert2@11.4.37",
       "destination": "wwwroot/limonte-sweetalert2/"
     }
