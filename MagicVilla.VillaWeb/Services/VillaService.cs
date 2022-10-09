@@ -4,7 +4,7 @@ using MagicVilla.VillaWeb.Services.IServices;
 
 namespace MagicVilla.VillaWeb.Services;
 
-public class VillaService : BaseService, IVillaService
+public sealed class VillaService : BaseService, IVillaService
 {
     private readonly IHttpClientFactory _clientFactory;
     private string villaUrl;

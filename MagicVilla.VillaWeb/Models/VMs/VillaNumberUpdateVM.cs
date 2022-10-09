@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MagicVilla.VillaWeb.Models.VMs;
 
-public class VillaNumberUpdateVM
+public sealed class VillaNumberUpdateVM
 {
 	public VillaNumberUpdateVM()
 	{

@@ -13,7 +13,7 @@ using System.Data;
 
 namespace MagicVilla.VillaWeb.Controllers;
 
-public class VillaNumberController : Controller
+public sealed class VillaNumberController : Controller
 {
     private readonly IVillaNumberService _villaNumberService;
     private readonly IVillaService _villaService;

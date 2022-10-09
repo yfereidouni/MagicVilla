@@ -4,7 +4,7 @@ using System.Runtime;
 
 namespace MagicVilla.VillaWeb;
 
-public class MappingConfig : Profile
+public sealed class MappingConfig : Profile
 {
     public MappingConfig()
     {

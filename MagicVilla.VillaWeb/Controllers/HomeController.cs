@@ -6,29 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
-namespace MagicVilla.VillaWeb.Controllers
+namespace MagicVilla.VillaWeb.Controllers;
+
+public sealed class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly IVillaService _villaService;
+    private readonly IMapper _mapper;
+
+    public HomeController(IVillaService villaService, IMapper mapper)
     {
-        private readonly IVillaService _villaService;
-        private readonly IMapper _mapper;
+        _villaService = villaService;
+        _mapper = mapper;
+    }
+    public async Task<IActionResult> Index()
+    {
+        List<VillaDTO> list = new();
 
-        public HomeController(IVillaService villaService, IMapper mapper)
+        var response = await _villaService.GetAllAsync<APIResponse>();
+
+        if (response != null && response.IsSuccess)
         {
-            _villaService = villaService;
-            _mapper = mapper;
+            list = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));
         }
-        public async Task<IActionResult> Index()
-        {
-            List<VillaDTO> list = new();
-
-            var response = await _villaService.GetAllAsync<APIResponse>();
-
-            if (response != null && response.IsSuccess)
-            {
-                list = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));
-            }
-            return View(list);
-        }
+        return View(list);
     }
 }
