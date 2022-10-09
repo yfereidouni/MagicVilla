@@ -2,7 +2,7 @@
 
 namespace MagicVilla.VillaWeb.Models;
 
-public class APIResponse
+public sealed class APIResponse
 {
     public HttpStatusCode StatusCode { get; set; }
     public bool IsSuccess { get; set; } = true;

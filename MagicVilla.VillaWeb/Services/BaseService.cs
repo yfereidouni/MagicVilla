@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MagicVilla.VillaWeb.Services;
 
-public class BaseService : IBaseService
+public abstract class BaseService : IBaseService
 {
     private readonly IHttpClientFactory httpClient;
 
