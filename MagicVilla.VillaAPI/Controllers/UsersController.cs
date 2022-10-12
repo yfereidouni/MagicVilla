@@ -1,6 +1,8 @@
-﻿using MagicVilla.VillaAPI.Models.DTOs;
+﻿using MagicVilla.VillaAPI.Models;
+using MagicVilla.VillaAPI.Models.DTOs;
 using MagicVilla.VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace MagicVilla.VillaAPI.Controllers;
 
@@ -10,10 +12,12 @@ namespace MagicVilla.VillaAPI.Controllers;
 public class UsersController : Controller
 {
     private readonly ILocalUserRepository _UserRepo;
+    protected APIResponse _response;
 
     public UsersController(ILocalUserRepository userRepo)
     {
         _UserRepo = userRepo;
+        _response = new();
     }
 
     [HttpPost("Login")]
@@ -22,15 +26,40 @@ public class UsersController : Controller
         var LoginResponse = await _UserRepo.Login(model);
         if (LoginResponse.User == null || string.IsNullOrEmpty(LoginResponse.Token))
         {
-            return BadRequest(new { message = "Username or password is incorrect" });
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.ErrorMessages.Add("Username or password is incorrect!");
+            return BadRequest(_response);
         }
-        return View();
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.IsSuccess = true;
+        _response.Result = LoginResponse;
+        return Ok(_response);
     }
 
     [HttpPost("Register")]
     public async Task<IActionResult> Register([FromBody] RegistrationRequestDTO model)
     {
+        bool isUserNameUnique = _UserRepo.IsUniqueUser(model.UserName);
+        if (!isUserNameUnique)
+        {
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.ErrorMessages.Add("Username already exists!");
+            return BadRequest(_response);
+        }
 
-        return View();
+        var user = await _UserRepo.Register(model);
+        if (user == null)
+        {
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.ErrorMessages.Add("Username or password is incorrect!");
+            return BadRequest(_response);
+        }
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.IsSuccess = true;
+        return Ok(_response);
+
     }
 }
