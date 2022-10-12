@@ -17,7 +17,7 @@ public class UsersController : Controller
     public UsersController(ILocalUserRepository userRepo)
     {
         _UserRepo = userRepo;
-        _response = new();
+        _response = new APIResponse();
     }
 
     [HttpPost("Login")]
