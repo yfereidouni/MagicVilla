@@ -25,9 +25,9 @@ public class LocalUserRepository : ILocalUserRepository
         var user = _dbContext.LocalUsers.FirstOrDefault(x => x.UserName == username);
         if (user != null)
         {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public async Task<LoginResponseDTO> Login(LoginRequestDTO loginRequestDTO)
@@ -37,7 +37,11 @@ public class LocalUserRepository : ILocalUserRepository
 
         if (user==null)
         {
-            return null;
+            return new LoginResponseDTO()
+            {
+                Token = "",
+                User = null
+            };
         }
 
         //if user found generate JWT Token

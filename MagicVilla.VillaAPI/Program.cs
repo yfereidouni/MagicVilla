@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
+builder.Services.AddScoped<ILocalUserRepository, LocalUserRepository>();
 
 // EF Configuration -------------------------------------------------------------------------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
