@@ -3,8 +3,10 @@ using MagicVilla.VillaWeb.Models;
 using MagicVilla.VillaWeb.Models.DTOs;
 using MagicVilla.VillaWeb.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace MagicVilla.VillaWeb.Controllers;
 
@@ -32,6 +34,15 @@ public class AuthController : Controller
         if (response != null && response.IsSuccess)
         {
             LoginResponseDTO model = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(response.Result));
+
+            #region Add Logged-in user to httpContext --------------------------------------------------
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Name, model.User.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.Role, model.User.Role));
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            #endregion----------------------------------------------------------------------------------
+
             HttpContext.Session.SetString(SD.SessionToken, model.Token);
             return RedirectToAction("Index", "Home");
         }
