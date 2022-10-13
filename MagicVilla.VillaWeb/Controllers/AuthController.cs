@@ -54,7 +54,7 @@ public class AuthController : Controller
     }
 
     [HttpGet]
-    public IActionResult Register()
+    public async Task<IActionResult> Register()
     {
         return View();
     }
@@ -63,6 +63,9 @@ public class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegistrationRequestDTO obj)
     {
+        //Setting default role by creating new user.
+        obj.Role = "user";
+
         APIResponse result = await _authService.RegisterAsync<APIResponse>(obj);
         if (result != null && result.IsSuccess)
         {
