@@ -49,12 +49,12 @@ builder.Services.AddControllers(options =>
 
 //Setting Authentication and challenging schema ---------------------------------------------------
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
-builder.Services.AddAuthentication(x => 
+builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-    .AddJwtBearer(x => 
+    .AddJwtBearer(x =>
     {
         x.RequireHttpsMetadata = false;
         x.SaveToken = true;
@@ -69,9 +69,11 @@ builder.Services.AddAuthentication(x =>
 //-------------------------------------------------------------------------------------------------
 builder.Services.AddEndpointsApiExplorer();
 
-//add JWT Token Pop-up ----------------------------------------------------------------------------
-builder.Services.AddSwaggerGen(options => 
+//------------------------------------------------------------------------------------------------
+//Add JWT Token Pop-up ----------------------------------------------------------------------------
+builder.Services.AddSwaggerGen(options =>
 {
+    //Top-Level Lock Button
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n" +
@@ -79,9 +81,28 @@ builder.Services.AddSwaggerGen(options =>
         "Example: \"Bearer 12345abcdef\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Scheme="Bearer"
+        Scheme = "Bearer"
+    });
+    //Action Methods Lock Button
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header
+            },
+            new List<string>()
+        }
     });
 });
+//-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 var app = builder.Build();
 
