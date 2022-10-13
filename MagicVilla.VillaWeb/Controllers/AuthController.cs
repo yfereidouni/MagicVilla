@@ -38,7 +38,7 @@ public class AuthController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login(RegistrationRequestDTO obj)
+    public async Task<IActionResult> Register(RegistrationRequestDTO obj)
     {
         APIResponse result= await _authService.RegisterAsync<APIResponse>(obj);
         if (result!=null && result.IsSuccess)
