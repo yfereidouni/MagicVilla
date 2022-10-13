@@ -38,6 +38,7 @@ public sealed class VillaNumberController : Controller
         return View(list);
     }
 
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> CreateVillaNumber()
     {
         VillaNumberCreateVM villaNumberVM = new();
@@ -54,6 +55,7 @@ public sealed class VillaNumberController : Controller
         return View(villaNumberVM);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateVillaNumber(VillaNumberCreateVM model)
@@ -91,6 +93,7 @@ public sealed class VillaNumberController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> UpdateVillaNumber(int villaNo)
     {
         VillaNumberUpdateVM villaNumberVM = new();
@@ -117,6 +120,7 @@ public sealed class VillaNumberController : Controller
         return NotFound();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateVillaNumber(VillaNumberUpdateVM model)
@@ -154,6 +158,7 @@ public sealed class VillaNumberController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> DeleteVillaNumber(int villaNo)
     {
         VillaNumberDeleteVM villaNumberVM = new();
@@ -180,6 +185,7 @@ public sealed class VillaNumberController : Controller
         return NotFound();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteVillaNumber(VillaNumberDeleteVM model)
@@ -195,7 +201,4 @@ public sealed class VillaNumberController : Controller
         TempData["error"] = "Error encountered!";
         return View(model);
     }
-
-
-
 }

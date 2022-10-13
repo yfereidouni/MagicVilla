@@ -2,6 +2,7 @@
 using MagicVilla.VillaWeb.Models;
 using MagicVilla.VillaWeb.Models.DTOs;
 using MagicVilla.VillaWeb.Services.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -30,12 +31,14 @@ public sealed class VillaController : Controller
         return View(list);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet]
     public IActionResult CreateVilla()
     {
         return View();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> CreateVilla(VillaCreateDTO model)
@@ -55,6 +58,7 @@ public sealed class VillaController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet]
     public async Task<IActionResult> UpdateVilla(int villaId)
     {
@@ -68,6 +72,7 @@ public sealed class VillaController : Controller
         return NotFound();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> UpdateVilla(VillaUpdateDTO model)
@@ -86,6 +91,7 @@ public sealed class VillaController : Controller
         return View(model);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet]
     public async Task<IActionResult> DeleteVilla(int villaId)
     {
@@ -99,6 +105,7 @@ public sealed class VillaController : Controller
         return NotFound();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteVilla(VillaDTO model)
