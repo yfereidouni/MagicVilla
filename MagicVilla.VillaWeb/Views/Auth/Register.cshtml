@@ -1,0 +1,16 @@
+﻿@using MagicVilla.VillaWeb.Models.DTOs
+@model RegistrationRequestDTO
+
+
+<h1>Register</h1>
+<form asp-controller="Auth" asp-action="Login" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input asp-for="UserName" type="text" placeholder="Username..." />
+    <input asp-for="Name" type="text" placeholder="Name..." />
+    <input asp-for="Password" type="text" placeholder="Password..." />
+    <button type="submit" value="Submit">Register</button>
+</form>
+
+@section Scripts{
+    <partial name="_ValidationSciptsPartial" />
+}
