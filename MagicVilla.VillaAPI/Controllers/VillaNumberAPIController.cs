@@ -16,8 +16,11 @@ using System.Reflection.Metadata;
 namespace MagicVilla.VillaAPI.Controllers;
 
 //[Route("api/[controller]")]
-[Route("api/VillaNumberAPI")]
+//[Route("api/VillaNumberAPI")]
+[Route("api/v{version:apiVersion}/VillaNumberAPI")]
 [ApiController]
+[ApiVersion("1.0")]
+[ApiVersion("2.0")]
 public class VillaNumberAPIController : ControllerBase
 {
     protected APIResponse _response;
@@ -43,6 +46,7 @@ public class VillaNumberAPIController : ControllerBase
         _response = new();
     }
 
+    [MapToApiVersion("1.0")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<APIResponse>> GetVillaNumbers()
@@ -65,6 +69,13 @@ public class VillaNumberAPIController : ControllerBase
         }
 
         return _response;
+    }
+
+    [MapToApiVersion("2.0")]
+    [HttpGet]
+    public IEnumerable<string> Get()
+    {
+        return new string[] { "value1", "value2" };
     }
 
     [HttpGet("{villaNo:int}", Name = "GetVillaNumber")]
