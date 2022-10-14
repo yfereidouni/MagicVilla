@@ -1,7 +1,12 @@
-﻿using MagicVilla.VillaWeb.Models;
+﻿using MagicVilla.Utility;
+using MagicVilla.VillaWeb.Models;
 using MagicVilla.VillaWeb.Models.DTOs;
 using MagicVilla.VillaWeb.Services.IServices;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace MagicVilla.VillaWeb.Controllers;
 
@@ -21,17 +26,35 @@ public class AuthController : Controller
         return View(obj);
     }
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Login(LoginRequestDTO obj)
+    public async Task<IActionResult> Login(LoginRequestDTO obj)
     {
-        return View(obj);
+        APIResponse response = await _authService.LoginAsync<APIResponse>(obj);
+        if (response != null && response.IsSuccess)
+        {
+            LoginResponseDTO model = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(response.Result));
+
+            #region Add Logged-in user to httpContext --------------------------------------------------
+            var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            identity.AddClaim(new Claim(ClaimTypes.Name, model.User.UserName));
+            identity.AddClaim(new Claim(ClaimTypes.Role, model.User.Role));
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            #endregion----------------------------------------------------------------------------------
+
+            HttpContext.Session.SetString(SD.SessionToken, model.Token);
+            return RedirectToAction("Index", "Home");
+        }
+        else
+        {
+            ModelState.AddModelError("CustomError", response.ErrorMessages.FirstOrDefault());
+            return View(obj);
+        }
     }
 
-
     [HttpGet]
-    public IActionResult Register()
+    public async Task<IActionResult> Register()
     {
         return View();
     }
@@ -40,8 +63,11 @@ public class AuthController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegistrationRequestDTO obj)
     {
-        APIResponse result= await _authService.RegisterAsync<APIResponse>(obj);
-        if (result!=null && result.IsSuccess)
+        //Setting default role by creating new user.
+        obj.Role = "user";
+
+        APIResponse result = await _authService.RegisterAsync<APIResponse>(obj);
+        if (result != null && result.IsSuccess)
         {
             return RedirectToAction("Login");
         }
@@ -50,13 +76,14 @@ public class AuthController : Controller
 
     public async Task<IActionResult> Logout()
     {
-        return View();
+        await HttpContext.SignOutAsync();
+        HttpContext.Session.SetString(SD.SessionToken, "");
+        return RedirectToAction("Index", "Home");
     }
 
     public IActionResult AccessDenied()
     {
         return View();
     }
-
 
 }

@@ -10,5 +10,5 @@ public static class SD
         DELETE,
         PATCH
     }
-
+    public static string SessionToken = "JWTToken";
 }

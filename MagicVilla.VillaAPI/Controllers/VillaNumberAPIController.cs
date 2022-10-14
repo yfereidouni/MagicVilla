@@ -4,18 +4,23 @@ using MagicVilla.VillaAPI.Logging;
 using MagicVilla.VillaAPI.Models;
 using MagicVilla.VillaAPI.Models.DTOs;
 using MagicVilla.VillaAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using System.Net;
 using System.Reflection.Metadata;
 
 namespace MagicVilla.VillaAPI.Controllers;
 
 //[Route("api/[controller]")]
-[Route("api/VillaNumberAPI")]
+//[Route("api/VillaNumberAPI")]
+[Route("api/v{version:apiVersion}/VillaNumberAPI")]
 [ApiController]
+[ApiVersion("1.0")]
+[ApiVersion("2.0")]
 public class VillaNumberAPIController : ControllerBase
 {
     protected APIResponse _response;
@@ -41,6 +46,7 @@ public class VillaNumberAPIController : ControllerBase
         _response = new();
     }
 
+    [MapToApiVersion("1.0")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<APIResponse>> GetVillaNumbers()
@@ -63,6 +69,13 @@ public class VillaNumberAPIController : ControllerBase
         }
 
         return _response;
+    }
+
+    [MapToApiVersion("2.0")]
+    [HttpGet]
+    public IEnumerable<string> Get()
+    {
+        return new string[] { "value1", "value2" };
     }
 
     [HttpGet("{villaNo:int}", Name = "GetVillaNumber")]
@@ -105,6 +118,7 @@ public class VillaNumberAPIController : ControllerBase
         return _response;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -148,6 +162,7 @@ public class VillaNumberAPIController : ControllerBase
         return _response;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpDelete("{villaNo:int}", Name = "DeleteVillaNumber")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -185,6 +200,7 @@ public class VillaNumberAPIController : ControllerBase
         return _response;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPut("{villaNo:int}", Name = "UpdateVillaNumber")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -223,6 +239,7 @@ public class VillaNumberAPIController : ControllerBase
         return _response;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPatch("{villaNo:int}", Name = "UpdatePartialVillaNumber")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
