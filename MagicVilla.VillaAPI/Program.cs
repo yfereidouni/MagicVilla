@@ -4,6 +4,7 @@ using MagicVilla.VillaAPI.Logging;
 using MagicVilla.VillaAPI.Repository;
 using MagicVilla.VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -18,6 +19,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 builder.Services.AddScoped<ILocalUserRepository, LocalUserRepository>();
+
+// Adding API Versioning
+builder.Services.AddApiVersioning(options => 
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+});
 
 // EF Configuration -------------------------------------------------------------------------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
