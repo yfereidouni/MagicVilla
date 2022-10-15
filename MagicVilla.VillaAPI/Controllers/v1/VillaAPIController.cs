@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 
-namespace MagicVilla.VillaAPI.Controllers;
+namespace MagicVilla.VillaAPI.Controllers.v1;
 
 //[Route("api/[controller]")]
 [Route("api/v{version:apiVersion}/VillaAPI")]

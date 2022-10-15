@@ -13,29 +13,28 @@ using System.Data;
 using System.Net;
 using System.Reflection.Metadata;
 
-namespace MagicVilla.VillaAPI.Controllers;
+namespace MagicVilla.VillaAPI.Controllers.v1;
 
 //[Route("api/[controller]")]
 //[Route("api/VillaNumberAPI")]
 [Route("api/v{version:apiVersion}/VillaNumberAPI")]
 [ApiController]
 [ApiVersion("1.0")]
-[ApiVersion("2.0")]
-public class VillaNumberAPIController : ControllerBase
+public class VillaNumberAPIv1Controller : ControllerBase
 {
     protected APIResponse _response;
     private readonly IVillaRepository _villaRepository;
     private readonly IVillaNumberRepository _villaNumberRepository;
     private readonly IMapper _mapper;
     private readonly ILogging _logger;
-    private readonly ILogger<VillaNumberAPIController> _logger1;
+    private readonly ILogger<VillaNumberAPIv1Controller> _logger1;
 
-    public VillaNumberAPIController(
+    public VillaNumberAPIv1Controller(
         IVillaRepository villaRepository,
         IVillaNumberRepository villaNumberRepository,
         IMapper mapper,
         ILogging logger,
-        ILogger<VillaNumberAPIController> logger1)
+        ILogger<VillaNumberAPIv1Controller> logger1)
     {
         _villaRepository = villaRepository;
         _villaNumberRepository = villaNumberRepository;
@@ -46,7 +45,7 @@ public class VillaNumberAPIController : ControllerBase
         _response = new();
     }
 
-    [MapToApiVersion("1.0")]
+    //[MapToApiVersion("1.0")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<APIResponse>> GetVillaNumbers()
@@ -58,7 +57,7 @@ public class VillaNumberAPIController : ControllerBase
 
             IEnumerable<VillaNumber> villaList = await _villaNumberRepository.GetAllAsync(includeProperties: "Villa");
             _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaList);
-            _response.StatusCode = System.Net.HttpStatusCode.OK;
+            _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
         }
         catch (Exception ex)
@@ -69,13 +68,6 @@ public class VillaNumberAPIController : ControllerBase
         }
 
         return _response;
-    }
-
-    [MapToApiVersion("2.0")]
-    [HttpGet]
-    public IEnumerable<string> Get()
-    {
-        return new string[] { "value1", "value2" };
     }
 
     [HttpGet("{villaNo:int}", Name = "GetVillaNumber")]
@@ -92,7 +84,7 @@ public class VillaNumberAPIController : ControllerBase
                 _logger1.LogInformation($"(Serilog) Get Villa Error with Id {villaNo}");
                 _logger.Log($"(iLog) Get Villa Error with Id {villaNo}", "error");
 
-                _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }
 
@@ -100,12 +92,12 @@ public class VillaNumberAPIController : ControllerBase
 
             if (villa == null)
             {
-                _response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                _response.StatusCode = HttpStatusCode.NotFound;
                 return NotFound(_response);
             }
 
             _response.Result = _mapper.Map<VillaNumberDTO>(villa);
-            _response.StatusCode = System.Net.HttpStatusCode.OK;
+            _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
         }
         catch (Exception ex)
@@ -173,7 +165,7 @@ public class VillaNumberAPIController : ControllerBase
         {
             if (villaNo == 0)
             {
-                _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }
 
@@ -181,12 +173,12 @@ public class VillaNumberAPIController : ControllerBase
 
             if (villaNumber == null)
             {
-                _response.StatusCode = System.Net.HttpStatusCode.NotFound;
+                _response.StatusCode = HttpStatusCode.NotFound;
                 return NotFound(_response);
             }
 
             await _villaNumberRepository.RemoveAsync(villaNumber);
-            _response.StatusCode = System.Net.HttpStatusCode.NoContent;
+            _response.StatusCode = HttpStatusCode.NoContent;
             _response.IsSuccess = true;
             return Ok(_response);
         }
@@ -211,7 +203,7 @@ public class VillaNumberAPIController : ControllerBase
         {
             if (villaDTO == null || villaNo != villaDTO.VillaNo)
             {
-                _response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                _response.StatusCode = HttpStatusCode.BadRequest;
                 return BadRequest(_response);
             }
 
@@ -225,7 +217,7 @@ public class VillaNumberAPIController : ControllerBase
 
             await _villaNumberRepository.UpdateAsync(model);
 
-            _response.StatusCode = System.Net.HttpStatusCode.NoContent;
+            _response.StatusCode = HttpStatusCode.NoContent;
             _response.IsSuccess = true;
             return Ok(_response);
         }
