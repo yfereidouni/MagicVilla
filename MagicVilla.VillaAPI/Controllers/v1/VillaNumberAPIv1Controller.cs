@@ -45,6 +45,13 @@ public class VillaNumberAPIv1Controller : ControllerBase
         _response = new();
     }
 
+
+    [HttpGet("GetString")]
+    public IEnumerable<string> Get()
+    {
+        return new string[] { "String1", "String2" };
+    }
+
     //[MapToApiVersion("1.0")]
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
