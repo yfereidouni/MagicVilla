@@ -9,7 +9,8 @@ namespace MagicVilla.VillaAPI.Controllers.v1;
 //[Route("api/[controller]")]
 [Route("api/v{version:apiVersion}/UsersAuth")]
 [ApiController]
-[ApiVersion("1.0")]
+//[ApiVersion("1.0")]
+[ApiVersionNeutral]
 public class UsersController : Controller
 {
     private readonly ILocalUserRepository _UserRepo;

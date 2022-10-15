@@ -16,7 +16,8 @@ namespace MagicVilla.VillaAPI.Controllers.v1;
 //[Route("api/[controller]")]
 [Route("api/v{version:apiVersion}/VillaAPI")]
 [ApiController]
-[ApiVersion("1.0")]
+//[ApiVersion("1.0")]
+[ApiVersionNeutral]
 public class VillaAPIController : ControllerBase
 {
     protected APIResponse _response;
