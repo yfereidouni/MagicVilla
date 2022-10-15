@@ -21,13 +21,13 @@ builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 builder.Services.AddScoped<ILocalUserRepository, LocalUserRepository>();
 
 // Adding API Versioning
-builder.Services.AddApiVersioning(options => 
+builder.Services.AddApiVersioning(options =>
 {
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.DefaultApiVersion = new ApiVersion(1, 0);
     options.ReportApiVersions = true;
 });
-builder.Services.AddVersionedApiExplorer(options => 
+builder.Services.AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
@@ -114,18 +114,36 @@ builder.Services.AddSwaggerGen(options =>
             new List<string>()
         }
     });
+
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Magic Villa",
+        Description = "API to manage Villa",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "Mr. Yasser Fereidouni",
+            Url = new Uri("https://github.com/yfereidouni")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Free License",
+            Url = new Uri("https://github.com/yfereidouni/yfereidouni")
+        }
+    });
 });
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
 var app = builder.Build();
 
 //Database Auto-Migration -------------------------------------------------------------------------
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ApplicationDbContext>();
-    context.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
+//    var context = services.GetRequiredService<ApplicationDbContext>();
+//    context.Database.Migrate();
+//}
 //SeedDatabase ------------------------------------------------------------------------------------
 //await AppDBInitializer.SeedingMasterDataAsync(app);
 //await AppDBInitializer.SeedingUsersAndRolesAsync(app);
@@ -136,7 +154,10 @@ using (var scope = app.Services.CreateScope())
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
+    });
 }
 
 app.UseHttpsRedirection();
